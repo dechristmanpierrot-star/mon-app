@@ -1,119 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pro Foot App</title>
+  <title>Live Pronostics</title>
 
   <style>
     body {
-      background: #0f172a;
-      color: white;
-      font-family: Arial;
-      margin: 0;
-      padding: 15px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #22c55e;
+      background:#0f172a;
+      color:white;
+      font-family:Arial;
+      padding:15px;
     }
 
     .card {
-      background: #1e293b;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      background:#1e293b;
+      padding:15px;
+      margin:10px 0;
+      border-radius:10px;
     }
 
-    .match {
-      font-size: 16px;
-      font-weight: bold;
+    .live {
+      color:red;
+      font-weight:bold;
     }
 
-    .prediction {
-      color: #22c55e;
-      margin-top: 5px;
-    }
-
-    .vip {
-      background: gold;
-      color: black;
-      padding: 5px;
-      border-radius: 5px;
-      display: inline-block;
-      margin-top: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #22c55e;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      margin-top: 10px;
-    }
+    .green { color:#22c55e; }
   </style>
 </head>
 
 <body>
 
-<h1>⚽ Pro Foot App</h1>
+<h2>⚽ Pronostics en direct</h2>
 
-<div id="matches">Chargement...</div>
-
-<button onclick="loadMatches()">🔄 Actualiser</button>
+<div id="app"></div>
 
 <script>
 
-// 🤖 IA PRONOSTIC
+const matches = [
+  {home:"Real Madrid", away:"Barcelona"},
+  {home:"Man City", away:"Liverpool"},
+  {home:"PSG", away:"Marseille"},
+  {home:"Bayern", away:"Dortmund"}
+];
+
+// 🤖 PRONOSTIC
 function predict(home, away) {
-  const strong = ["Real Madrid","Man City","Barcelona","Bayern","PSG"];
+  let r = Math.random();
 
-  if (strong.some(t => home.includes(t))) return "Victoire " + home;
-  if (strong.some(t => away.includes(t))) return "Victoire " + away;
-
-  return "Match nul (1X)";
+  if (r < 0.4) return home + " gagne";
+  if (r < 0.8) return away + " gagne";
+  return "Match nul";
 }
 
-// 🌍 MATCHS RÉELS
-async function loadMatches() {
-  try {
-    const res = await fetch("https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=2026-04-07&s=Soccer");
-    const data = await res.json();
-
-    const container = document.getElementById("matches");
-    container.innerHTML = "";
-
-    if (!data.events) {
-      container.innerHTML = "Aucun match aujourd'hui";
-      return;
-    }
-
-    data.events.slice(0,8).forEach(match => {
-
-      const home = match.strHomeTeam;
-      const away = match.strAwayTeam;
-      const prediction = predict(home, away);
-
-      container.innerHTML += `
-        <div class="card">
-          <div class="match">${home} vs ${away}</div>
-          <div>📅 ${match.dateEvent}</div>
-          <div class="prediction">🔮 ${prediction}</div>
-          <div class="vip">VIP 2.5+ buts</div>
-        </div>
-      `;
-    });
-
-  } catch (err) {
-    document.getElementById("matches").innerHTML = "Erreur de chargement";
-  }
+// ⏱️ TEMPS LIVE
+function getMinute() {
+  return Math.floor(Math.random()*90) + "'";
 }
 
-// AUTO LOAD
-loadMatches();
+// ⚽ SCORE LIVE
+function getScore() {
+  return Math.floor(Math.random()*3) + " - " + Math.floor(Math.random()*3);
+}
+
+// 🔄 AFFICHAGE
+function render() {
+  const container = document.getElementById("app");
+  container.innerHTML = "";
+
+  matches.forEach(match => {
+    container.innerHTML += `
+      <div class="card">
+        <div class="live">🔴 LIVE ${getMinute()}</div>
+        <b>${match.home} vs ${match.away}</b>
+        <p>Score: ${getScore()}</p>
+        <p class="green">Pronostic: ${predict(match.home, match.away)}</p>
+      </div>
+    `;
+  });
+}
+
+// 🔁 UPDATE AUTO (temps réel)
+setInterval(render, 5000);
+
+render();
 
 </script>
 
