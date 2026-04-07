@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Live Pronostics</title>
+  <title>Pronostics Foot</title>
 
   <style>
     body {
@@ -18,20 +18,29 @@
       border-radius:10px;
     }
 
-    .live {
-      color:red;
+    .vip {
+      color:gold;
       font-weight:bold;
     }
 
-    .green { color:#22c55e; }
+    button {
+      width:100%;
+      padding:12px;
+      background:#22c55e;
+      border:none;
+      border-radius:5px;
+      color:white;
+    }
   </style>
 </head>
 
 <body>
 
-<h2>⚽ Pronostics en direct</h2>
+<h2>⚽ Pronostics du jour</h2>
 
 <div id="app"></div>
+
+<button onclick="load()">Actualiser</button>
 
 <script>
 
@@ -42,46 +51,30 @@ const matches = [
   {home:"Bayern", away:"Dortmund"}
 ];
 
-// 🤖 PRONOSTIC
-function predict(home, away) {
+function predict() {
   let r = Math.random();
-
-  if (r < 0.4) return home + " gagne";
-  if (r < 0.8) return away + " gagne";
-  return "Match nul";
+  if (r < 0.5) return "Victoire domicile";
+  if (r < 0.8) return "Plus de 2.5 buts";
+  return "BTTS (les 2 équipes marquent)";
 }
 
-// ⏱️ TEMPS LIVE
-function getMinute() {
-  return Math.floor(Math.random()*90) + "'";
-}
+function load() {
+  let html = "";
 
-// ⚽ SCORE LIVE
-function getScore() {
-  return Math.floor(Math.random()*3) + " - " + Math.floor(Math.random()*3);
-}
-
-// 🔄 AFFICHAGE
-function render() {
-  const container = document.getElementById("app");
-  container.innerHTML = "";
-
-  matches.forEach(match => {
-    container.innerHTML += `
+  matches.forEach(m => {
+    html += `
       <div class="card">
-        <div class="live">🔴 LIVE ${getMinute()}</div>
-        <b>${match.home} vs ${match.away}</b>
-        <p>Score: ${getScore()}</p>
-        <p class="green">Pronostic: ${predict(match.home, match.away)}</p>
+        <b>${m.home} vs ${m.away}</b>
+        <p>🔮 ${predict()}</p>
+        <p class="vip">🔒 VIP: Score exact disponible</p>
       </div>
     `;
   });
+
+  document.getElementById("app").innerHTML = html;
 }
 
-// 🔁 UPDATE AUTO (temps réel)
-setInterval(render, 5000);
-
-render();
+load();
 
 </script>
 
