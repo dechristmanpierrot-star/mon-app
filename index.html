@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mon App Score</title>
+  <title>Mon App Score</title>
 </head>
 <body>
+
 <h1>⚽ Mon application de score</h1>
-<p>Match aujourd'hui : 0 - 0</p>
+
+<p id="score">Match aujourd'hui : 0 - 0</p>
+
+<button onclick="changerScore()">Changer score</button>
+
+<script>
+function changerScore() {
+  document.getElementById("score").innerText = "Match aujourd'hui : 1 - 0";
+}
+</script>
+
 </body>
 </html>
