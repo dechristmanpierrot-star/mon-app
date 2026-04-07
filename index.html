@@ -5,15 +5,27 @@
 </head>
 <body>
 
-<h1>⚽ Mon application de score</h1>
+<h1>⚽ Scores des matchs</h1>
 
-<p id="score">Match aujourd'hui : 0 - 0</p>
+<div>
+  <p id="match1">Feyenoord vs Ajax : 0 - 0</p>
+  <button onclick="score1()">Changer</button>
+</div>
 
-<button onclick="changerScore()">Changer score</button>
+<br>
+
+<div>
+  <p id="match2">Lyon vs Marseille : 0 - 0</p>
+  <button onclick="score2()">Changer</button>
+</div>
 
 <script>
-function changerScore() {
-  document.getElementById("score").innerText = "Match aujourd'hui : 1 - 0";
+function score1() {
+  document.getElementById("match1").innerText = "Feyenoord vs Ajax : 1 - 0";
+}
+
+function score2() {
+  document.getElementById("match2").innerText = "Lyon vs Marseille : 2 - 1";
 }
 </script>
 
