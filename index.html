@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mon App Score</title>
+  <title>Score Live</title>
+
+  <style>
+    body {
+      background-color: #0f172a;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 10px;
+    }
+
+    button {
+      background: #22c55e;
+      border: none;
+      padding: 8px 15px;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>⚽ Scores des matchs</h1>
+<h1>⚽ Scores en direct</h1>
 
-<div>
+<div class="card">
   <p id="match1">Feyenoord vs Ajax : 0 - 0</p>
-  <button onclick="score1()">Changer</button>
+  <button onclick="score1()">Update</button>
 </div>
 
-<br>
-
-<div>
+<div class="card">
   <p id="match2">Lyon vs Marseille : 0 - 0</p>
-  <button onclick="score2()">Changer</button>
+  <button onclick="score2()">Update</button>
 </div>
 
 <script>
