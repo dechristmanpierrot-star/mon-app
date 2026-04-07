@@ -55,7 +55,15 @@ async function getMatches() {
   <div class="card">
     <p><strong>${match.title}</strong></p>
     <p>Compétition: ${match.competition}</p>
-    <p>Date: ${match.date}</p>
+    const date = new Date(match.date);
+
+html += `
+  <div class="card">
+    <p><strong>${match.title}</strong></p>
+    <p>Compétition: ${match.competition}</p>
+    <p>Heure: ${date.toLocaleString()}</p>
+  </div>
+`;
   </div>
 `; 
   });
