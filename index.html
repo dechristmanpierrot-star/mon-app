@@ -1,39 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pro Foot App</title>
+
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial;
+      margin: 0;
+      padding: 15px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #22c55e;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .match {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .prediction {
+      color: #22c55e;
+      margin-top: 5px;
+    }
+
+    .vip {
+      background: gold;
+      color: black;
+      padding: 5px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #22c55e;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>⚽ Pro Foot App</h1>
+
+<div id="matches">Chargement...</div>
+
+<button onclick="loadMatches()">🔄 Actualiser</button>
+
 <script>
-async function loadMatches() {
 
-  const res = await fetch("https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=2026-04-07&s=Soccer");
-  const data = await res.json();
-
-  const container = document.getElementById("matches");
-  container.innerHTML = "";
-
-  data.events.slice(0,6).forEach(match => {
-
-    const home = match.strHomeTeam;
-    const away = match.strAwayTeam;
-
-    const prediction = predict(home, away);
-
-    container.innerHTML += `
-      <div class="card">
-        <b>${home} vs ${away}</b>
-        <p>📅 ${match.dateEvent}</p>
-        <p>🔮 ${prediction}</p>
-      </div>
-    `;
-  });
-
-}
-
+// 🤖 IA PRONOSTIC
 function predict(home, away) {
-
   const strong = ["Real Madrid","Man City","Barcelona","Bayern","PSG"];
 
   if (strong.some(t => home.includes(t))) return "Victoire " + home;
   if (strong.some(t => away.includes(t))) return "Victoire " + away;
 
-  return "Match serré";
+  return "Match nul (1X)";
 }
 
+// 🌍 MATCHS RÉELS
+async function loadMatches() {
+  try {
+    const res = await fetch("https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=2026-04-07&s=Soccer");
+    const data = await res.json();
+
+    const container = document.getElementById("matches");
+    container.innerHTML = "";
+
+    if (!data.events) {
+      container.innerHTML = "Aucun match aujourd'hui";
+      return;
+    }
+
+    data.events.slice(0,8).forEach(match => {
+
+      const home = match.strHomeTeam;
+      const away = match.strAwayTeam;
+      const prediction = predict(home, away);
+
+      container.innerHTML += `
+        <div class="card">
+          <div class="match">${home} vs ${away}</div>
+          <div>📅 ${match.dateEvent}</div>
+          <div class="prediction">🔮 ${prediction}</div>
+          <div class="vip">VIP 2.5+ buts</div>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    document.getElementById("matches").innerHTML = "Erreur de chargement";
+  }
+}
+
+// AUTO LOAD
 loadMatches();
+
 </script>
+
+</body>
+</html>
