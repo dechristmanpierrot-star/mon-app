@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pronostics Foot</title>
+  <title>Pronostics Live</title>
 
   <style>
     body {
@@ -28,13 +28,14 @@
       padding: 10px;
       color: white;
       border-radius: 5px;
+      width: 100%;
     }
   </style>
 </head>
 
 <body>
 
-<h1>⚽ Pronostics simples</h1>
+<h1>⚽ Pronostics Live</h1>
 
 <div id="matches"></div>
 
@@ -42,57 +43,44 @@
 
 <script>
 
-// 📊 Données simples (FIABLE)
+// 🔥 FAKE API GRATUITE (qui marche toujours)
 const matches = [
-  {home: "Real Madrid", away: "Mallorca"},
+  {home: "Real Madrid", away: "Barcelona"},
   {home: "Manchester City", away: "Liverpool"},
-  {home: "Arsenal", away: "Chelsea"},
-  {home: "Barcelona", away: "Atletico Madrid"},
-  {home: "Bayern Munich", away: "Dortmund"}
+  {home: "PSG", away: "Marseille"},
+  {home: "Bayern", away: "Dortmund"}
 ];
 
-// 🔥 Fonction pronostic simple
-function getPrediction(home, away) {
+// 🤖 IA SIMPLE (PRONOSTIC)
+function predict(home, away) {
+  let r = Math.random();
 
-  const strongTeams = [
-    "Real Madrid",
-    "Manchester City",
-    "Bayern Munich",
-    "Barcelona"
-  ];
-
-  if (strongTeams.includes(home)) {
-    return "Victoire " + home;
-  }
-
-  if (strongTeams.includes(away)) {
-    return "Victoire " + away;
-  }
-
-  return "Match serré (1X)";
+  if (r < 0.33) return home + " gagne";
+  if (r < 0.66) return away + " gagne";
+  return "Match nul";
 }
 
-// 🎯 Affichage
+// 📊 AFFICHAGE
 function loadMatches() {
-
   const container = document.getElementById("matches");
   container.innerHTML = "";
 
   matches.forEach(match => {
+    const pronostic = predict(match.home, match.away);
 
-    const prediction = getPrediction(match.home, match.away);
+    const div = document.createElement("div");
+    div.className = "card";
 
-    container.innerHTML += `
-      <div class="card">
-        <p><b>${match.home} vs ${match.away}</b></p>
-        <p>🔥 Pronostic : ${prediction}</p>
-      </div>
+    div.innerHTML = `
+      <b>${match.home} vs ${match.away}</b><br><br>
+      🔮 Pronostic: <span style="color:#22c55e">${pronostic}</span>
     `;
-  });
 
+    container.appendChild(div);
+  });
 }
 
-// lancer automatiquement
+// AUTO LOAD
 loadMatches();
 
 </script>
