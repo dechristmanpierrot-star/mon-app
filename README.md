@@ -1,1 +1,10 @@
-# mon-app
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mon App Score</title>
+</head>
+<body>
+  <h1>⚽ Mon application de score</h1>
+  <p>Match aujourd'hui : 0 - 0</p>
+</body>
+</html>
