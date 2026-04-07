@@ -68,7 +68,8 @@ async function getLiveScores() {
     }
 
   } catch (error) {
-    document.getElementById("match1").innerText = "Erreur API";
+    document.getElementById("match1").innerText = "Erreur API ⚠️";
+    console.log(error);
   }
 }
 </script>
